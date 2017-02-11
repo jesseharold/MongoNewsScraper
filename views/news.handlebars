@@ -1,0 +1,20 @@
+
+    <h2>{{site.sitename}}</h2>
+    <p>{{site.text}}</p>
+    {{#if posts}}
+      <ul class="newsView">
+      {{#each posts}}
+        <li><h3 class="newsTitle">{{this.title}}</h3>
+        Link: <a class="externalLink" href="{{this.link}}" target="_blank">{{this.link}}</a><br>
+        {{#if this.image}}
+          <img class="featureImage" src="{{this.image}}" style="max-width: 400px;">
+        {{/if}}
+        <div class="commentsBlock">
+          <a class="addCOmment">Comment on this</a>
+          <a class="seeComments">View (NUM) comments</a>
+        </div>
+        </li>
+      {{/each}}
+      </ul>
+    {{/if}}
+  

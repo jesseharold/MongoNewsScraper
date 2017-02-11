@@ -26,18 +26,21 @@ app.get("/", function(req, res) {
 
 
 app.get("/scrape", function(req, res){
-    var siteUrl = "http://www.cuteoverload.com";
+    var siteUrl = "http://www.aljazeera.com/news/";
+    var baseUrl = "http://www.aljazeera.com";
     //= req.body.site;
     console.log("scraping "+ siteUrl);
     var results = [];
     request(siteUrl, function (error, response, html) {
         var $ = cheerio.load(html);
-        $("div.post").each(function(i, element){
+        $("h2.top-sec-title, h2.top-sec-smalltitle, h2.topics-sec-item-head, a.topics-sidebar-title>h3").each(function(i, element){
             var image = $(element).find(".entry-content img").attr("src");
-            var title = $(element).children("h2").text();
+            var title = $(element).text();
+            var link = $(element).parent("a").attr("href");
             results.push({
                 title: title,
-                image: image
+                image: image,
+                link: baseUrl+link
             });
         //   db.scrapedData.insert({
         //     title: title,

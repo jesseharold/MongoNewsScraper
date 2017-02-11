@@ -5,7 +5,10 @@
     <ul>
     {{#each posts}}
       <li><b>{{this.title}}</b><br>
-      <img src="{{this.image}}">
+      Link: <a href="{{this.link}}" target="_blank">{{this.link}}</a><br>
+      {{#if this.image}}
+        <img src="{{this.image}}" style="max-width: 400px;">
+      {{/if}}
       </li>
     {{/each}}
     </ul>

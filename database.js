@@ -1,34 +1,20 @@
-var mongojs = require("mongojs");
-
-var sites = [
-    {
-        index: 0,
-        introText: "Text about site goes here.",
-        baseUrl: "http://www.aljazeera.com",
-        urlToScrape: "http://www.aljazeera.com/news/",
-        collectionName: "aljazeera",
-        baseSelector: "h2.top-sec-title, h2.top-sec-smalltitle, h2.topics-sec-item-head, a.topics-sidebar-title>h3",
-        imageSelector: ".entry-content img",
-        titleSelector: "",
-        linkSelector: ""
-    }
-];
+var mongoose = require("mongoose");
 
 // Database configuration
 var databaseUrl = "scrapedData";
-var collections = [];
 
-//get names of all collections
-for (var i = 0; i < sites.length; i++){
-    collections.push(sites[i].collectionName);
-}
+mongoose.connect("mongodb://localhost/" + databaseUrl);
+var db = mongoose.connection;
 
-var db = mongojs(databaseUrl, collections);
+// Log any mongoose errors
 db.on("error", function(error) {
-  console.log("Database Error:", error);
+  console.log("Mongoose Error: ", error);
+});
+
+db.once("open", function() {
+  console.log("Mongoose connection successful.");
 });
 
 module.exports = {
-    mongo: db,
-    sites: sites
+    mongo: db
 };

@@ -1,19 +1,20 @@
 var cheerio = require("cheerio");
 var request = require("request");
-var db = require("./database.js");
+var db = require("./database");
+var sites = require("./sites");
 
 exports.setup = function(app) {
     
     // list out all sites, link to their scrape page
     app.get("/", function(req, res) {
-        res.render("index", {siteOptions: db.sites});
+        res.render("index", {siteOptions: sites});
     });
 
     // perform the scrape and store data in mongo
     app.get("/news-site/:index/", function(req, res){
         var siteIndex = parseInt(req.params.index);
         console.log("siteIndex: ", req.params.index);
-        var thisSite = db.sites[siteIndex];
+        var thisSite = sites[siteIndex];
         console.log("scraping "+ thisSite.urlToScrape);
         var results = [];
         request(thisSite.urlToScrape, function (error, response, html) {

@@ -2,5 +2,12 @@
     <h1>Comment on the News</h1>
     <h2>{{news.sitename}}</h1>
     <p>{{news.text}}</p>
+    <ul>
+    {{#each posts}}
+      <li><b>{{this.title}}</b><br>
+      <img src="{{this.image}}">
+      </li>
+    {{/each}}
+    </ul>
   </div>
   

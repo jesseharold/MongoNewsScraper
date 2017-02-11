@@ -1,9 +1,9 @@
 var express = require("express");
-var request = require("request");
 var path = require('path');
 var bodyParser = require('body-parser');
 var cheerio = require("cheerio");
 var handlebars = require("express-handlebars");
+var request = require("request");
 
 var PORT = process.env.PORT || 9000;
 var app = express();
@@ -14,20 +14,20 @@ app.set('view engine', 'handlebars');
 app.use(express.static(path.join(__dirname, '/public')));
 app.use(bodyParser.json());
 
-app.get("/", function(request, response) {
+app.get("/", function(req, res) {
     var indexInfo = {
         news:{
             sitename:"Cute Overload",
             text:"hi"
         }
-    }
-    response.render("index", indexInfo);
+    };
+    res.render("index", indexInfo);
 });
 
 
-app.get("/scrape", function(request, response){
+app.get("/scrape", function(req, res){
     var siteUrl = "http://www.cuteoverload.com";
-    //= request.body.site;
+    //= req.body.site;
     console.log("scraping "+ siteUrl);
     var results = [];
     request(siteUrl, function (error, response, html) {
@@ -44,12 +44,17 @@ app.get("/scrape", function(request, response){
         //     image: image
         //   });
         });
-        console.log(results);
-        response.send(results);
+        //console.log(results);
+        var handlebarsInfo = {
+            news:{
+                sitename: siteUrl,
+                text:"hi"
+            },
+            posts: results
+        };
+        res.render("index", handlebarsInfo);
     });
 });
-
-/* -/-/-/-/-/-/-/-/-/-/-/-/- */
 
 app.listen(PORT, function() {
   console.log("App running on port " + PORT);

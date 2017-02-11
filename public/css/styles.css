@@ -1,0 +1,16 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+h3.newsTitle {
+    margin-bottom: 0;
+}
+ul.newsView>li {
+    list-style: none;
+    margin-bottom: 2em;
+}
+div.commentsBlock>a {
+    display: inline-block;
+    margin-right: 20px;
+    font-size: small;
+    text-decoration: underline;
+}

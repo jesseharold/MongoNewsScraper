@@ -1,16 +1,20 @@
-  <div class="container">
-    <h1>Comment on the News</h1>
+
     <h2>{{news.sitename}}</h1>
     <p>{{news.text}}</p>
-    <ul>
-    {{#each posts}}
-      <li><b>{{this.title}}</b><br>
-      Link: <a href="{{this.link}}" target="_blank">{{this.link}}</a><br>
-      {{#if this.image}}
-        <img src="{{this.image}}" style="max-width: 400px;">
-      {{/if}}
-      </li>
-    {{/each}}
-    </ul>
-  </div>
+    {{#if posts}}
+      <ul class="newsView">
+      {{#each posts}}
+        <li><h3 class="newsTitle">{{this.title}}</h3>
+        Link: <a class="externalLink" href="{{this.link}}" target="_blank">{{this.link}}</a><br>
+        {{#if this.image}}
+          <img class="featureImage" src="{{this.image}}" style="max-width: 400px;">
+        {{/if}}
+        <div class="commentsBlock">
+          <a class="addCOmment">Comment on this</a>
+          <a class="seeComments">View (NUM) comments</a>
+        </div>
+        </li>
+      {{/each}}
+      </ul>
+    {{/if}}
   

@@ -16,24 +16,24 @@ exports.setup = function(app) {
         console.log("siteIndex: ", req.params.index);
         var thisSite = sites[siteIndex];
         console.log("scraping "+ thisSite.urlToScrape);
-        var results = [];
         request(thisSite.urlToScrape, function (error, response, html) {
             var $ = cheerio.load(html);
             $(thisSite.baseSelector).each(function(i, element){
                 var image = $(element).find(thisSite.imageSelector).attr("src");
                 var title = $(element).find(thisSite.titleSelector).text();
                 var link = $(element).find(thisSite.linkSelector).attr("href");
-                results.push({
+
+                // *** update this to mongoose ***
+                db.mongo[thisSite.collectionName].insert({
                     title: title,
                     image: image,
                     link: thisSite.baseUrl+link
                 });
-                db.mongo[thisSite.collectionName].insert({
-                    title: title,
-                    image: image,
-                    link: link
-                });
             });
+            // get all info from the db
+            // *** update this to mongoose ***
+            var results = [];
+
             var handlebarsInfo = {
                 site: {
                     sitename: thisSite.urlToScrape,

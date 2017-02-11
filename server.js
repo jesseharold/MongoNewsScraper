@@ -2,7 +2,7 @@ var express = require("express");
 var path = require('path');
 var bodyParser = require('body-parser');
 var handlebars = require("express-handlebars");
-var routes = require("./routes.js");
+var routes = require("./controllers/routes.js");
 
 var PORT = process.env.PORT || 9000;
 var app = express();

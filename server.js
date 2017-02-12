@@ -20,10 +20,9 @@ var userModel = require('./models/User');
 
 db.once("open", function() {
   console.log("Mongoose connection successful.");
-  console.log("seeding sites...");
   siteModel.find({}).exec(function (err, collection) {
-    console.log("seeding collection: ", collection);
         if (collection.length === 0) {
+            console.log("seeding sites collection");
             var initialSite  = {
                 introText: "Text about site goes here.",
                 baseUrl: "http://www.aljazeera.com",

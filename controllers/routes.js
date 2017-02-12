@@ -1,13 +1,17 @@
 var cheerio = require("cheerio");
 var request = require("request");
 var db = require("./../database.js");
+// require all models
+var articleModel = require('./../models/Article');
+var commentModel = require('./../models/Comment');
+var siteModel = require('./../models/Site');
+var userModel = require('./../models/User');
 
 exports.setup = function(app) {
     
     // list out all sites, link to their scrape page
     app.get("/", function(req, res) {
-        console.log("collection: ", db.sites);
-        db.sites.find({}, function(err, data){
+        siteModel.find({}, function(err, data){
             if (err){ return console.log(err);}
             console.log(data);
             res.render("index", {siteOptions: data});
@@ -18,7 +22,7 @@ exports.setup = function(app) {
     app.get("/scrape/:index/", function(req, res){
         var siteIndex = parseInt(req.params.index);
         console.log("siteIndex: ", req.params.index);
-        var thisSite = db.sites.find({_id: siteIndex});
+        var thisSite = siteModel.find({_id: siteIndex});
         console.log("scraping "+ thisSite.urlToScrape);
 
         //scrape the site
@@ -30,7 +34,7 @@ exports.setup = function(app) {
                 var link = $(element).find(thisSite.linkSelector).attr("href");
 
                 // *** update this to mongoose ***
-                db.articles.insert({
+                articleModel.insert({
                     title: title,
                     image: image,
                     link: thisSite.baseUrl+link
@@ -38,7 +42,7 @@ exports.setup = function(app) {
             });
 
             //display the site's articles
-            db.articles.find({site: siteIndex}, function(err, data){
+            articleModel.find({site: siteIndex}, function(err, data){
                 var handlebarsInfo = {
                     site: {
                         sitename: thisSite.urlToScrape,

@@ -10,6 +10,9 @@ var ArticleSchema = new Schema({
     type: String,
     required: true
   },
+  image: {
+    type: String
+  },
   // This only saves one Comment's ObjectId, ref refers to the Comment model
   comments: {
     type: Schema.Types.ObjectId,

@@ -29,11 +29,6 @@ var SiteSchema = new Schema({
   linkSelector: {
     type: String
   }
-  // This only saves one note's ObjectId, ref refers to the Note model
-  articles: {
-    type: Schema.Types.ObjectId,
-    ref: "Article"
-  }
 });
 
 var Site = mongoose.model("Site", SiteSchema);

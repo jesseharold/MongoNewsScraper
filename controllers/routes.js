@@ -8,12 +8,11 @@ var siteModel = require('./../models/Site');
 var userModel = require('./../models/User');
 
 exports.setup = function(app) {
-    
-    // list out all sites, link to their scrape page
+    // list out all sites, link to their unique page
     app.get("/", function(req, res) {
         siteModel.find({}, function(err, data){
             if (err){ return console.log(err);}
-            console.log(data);
+            //console.log(data);
             res.render("index", {siteOptions: data});
         });
     });

@@ -26,6 +26,7 @@ exports.setup = function(app) {
             //scrape the site
             console.log("scraping " + thisSite.urlToScrape);
             request(thisSite.urlToScrape, function (error, response, html) {
+                if (error){console.log(err);}
                 var $ = cheerio.load(html);
                 $(thisSite.baseSelector).each(function(i, element){
                     var image = $(element).find(thisSite.imageSelector).attr("src");
@@ -37,19 +38,21 @@ exports.setup = function(app) {
                         title: title,
                         image: image,
                         link: thisSite.baseUrl+link
+                    }, function(err, createdDoc){   
+                        if (err){console.log(err);}
+                        //display the site's articles
+                        articleModel.find({site: req.params.index}, function(err, data){
+                            if (err){console.log(err);}
+                            var handlebarsInfo = {
+                                site: {
+                                    sitename: thisSite.urlToScrape,
+                                    text: thisSite.introText
+                                },
+                                posts: data
+                            };
+                            res.render("news", handlebarsInfo);
+                        });
                     });
-                });
-
-                //display the site's articles
-                articleModel.find({site: req.params.index}, function(err, data){
-                    var handlebarsInfo = {
-                        site: {
-                            sitename: thisSite.urlToScrape,
-                            text: thisSite.introText
-                        },
-                        posts: data
-                    };
-                    res.render("news", handlebarsInfo);
                 });
             });
         });

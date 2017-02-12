@@ -28,10 +28,10 @@ db.once("open", function() {
                 baseUrl: "http://www.aljazeera.com",
                 urlToScrape: "http://www.aljazeera.com/news/",
                 collectionName: "aljazeera",
-                baseSelector: "h2.top-sec-title, h2.top-sec-smalltitle, h2.topics-sec-item-head, a.topics-sidebar-title>h3",
-                imageSelector: ".entry-content img",
-                titleSelector: "",
-                linkSelector: ""
+                baseSelector: "div.top-section-lt, div.top-section-rt-s1, div.topics-sec-item, div.topics-sec-item-cont, div.row topics-sidebar-opinion-item",
+                imageSelector: "img",
+                titleSelector: "h2,h3",
+                linkSelector: "a"
             };
           siteModel.create(initialSite);
         }

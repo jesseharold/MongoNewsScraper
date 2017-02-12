@@ -28,11 +28,14 @@ exports.setup = function(app) {
             request(thisSite.urlToScrape, function (error, response, html) {
                 if (error){console.log(err);}
                 var $ = cheerio.load(html);
+                //"a.topics-sidebar-title" 
                 $(thisSite.baseSelector).each(function(i, element){
                     var image = $(element).find(thisSite.imageSelector).attr("src");
                     var title = $(element).find(thisSite.titleSelector).text();
                     var link = $(element).find(thisSite.linkSelector).attr("href");
-
+                    // console.log("image: " + image);
+                    // console.log("title: " + title);
+                    // console.log("link: " + link);
                     // *** update this to mongoose ***
                     articleModel.create({
                         title: title,

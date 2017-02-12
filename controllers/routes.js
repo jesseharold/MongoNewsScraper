@@ -1,7 +1,7 @@
 var cheerio = require("cheerio");
 var request = require("request");
-var db = require("./database");
-var sites = require("./sites");
+var db = require("./../database.js");
+var sites = require("./../sites");
 
 exports.setup = function(app) {
     

@@ -6,8 +6,8 @@ exports.setup = function(app) {
     
     // list out all sites, link to their scrape page
     app.get("/", function(req, res) {
-        console.log(db.mongo);
-        db.mongo.sites.find({}, function(err, data){
+        console.log("collection: ", db.sites);
+        db.sites.find({}, function(err, data){
             if (err){ return console.log(err);}
             console.log(data);
             res.render("index", {siteOptions: data});
@@ -18,7 +18,7 @@ exports.setup = function(app) {
     app.get("/scrape/:index/", function(req, res){
         var siteIndex = parseInt(req.params.index);
         console.log("siteIndex: ", req.params.index);
-        var thisSite = db.mongo.sites.find({_id: siteIndex});
+        var thisSite = db.sites.find({_id: siteIndex});
         console.log("scraping "+ thisSite.urlToScrape);
 
         //scrape the site
@@ -30,7 +30,7 @@ exports.setup = function(app) {
                 var link = $(element).find(thisSite.linkSelector).attr("href");
 
                 // *** update this to mongoose ***
-                db.mongo.articles.insert({
+                db.articles.insert({
                     title: title,
                     image: image,
                     link: thisSite.baseUrl+link
@@ -38,7 +38,7 @@ exports.setup = function(app) {
             });
 
             //display the site's articles
-            db.mongo.articles.find({site: siteIndex}, function(err, data){
+            db.articles.find({site: siteIndex}, function(err, data){
                 var handlebarsInfo = {
                     site: {
                         sitename: thisSite.urlToScrape,

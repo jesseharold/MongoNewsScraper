@@ -6,9 +6,12 @@ exports.setup = function(app) {
     
     // list out all sites, link to their scrape page
     app.get("/", function(req, res) {
-        var sites = db.mongo.sites.find({});
-        console.log(sites);
-        res.render("index", {siteOptions: sites});
+        console.log(db.mongo);
+        db.mongo.sites.find({}, function(err, data){
+            if (err){ return console.log(err);}
+            console.log(data);
+            res.render("index", {siteOptions: data});
+        });
     });
 
     // perform the scrape and store data in mongo

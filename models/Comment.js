@@ -10,7 +10,7 @@ var CommentSchema = new Schema({
     type: Date,
     default: Date.now()
   },
-  // This only saves one user's ObjectId, ref refers to the User model
+  // Associations
   author: {
     type: Schema.Types.ObjectId,
     ref: "User"

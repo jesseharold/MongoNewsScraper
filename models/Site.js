@@ -28,7 +28,12 @@ var SiteSchema = new Schema({
   },
   linkSelector: {
     type: String
-  }
+  },
+  // Associations
+  articles : [{
+    type: Schema.Types.ObjectId,
+    ref: "Article"
+  }]
 });
 
 var Site = mongoose.model("Site", SiteSchema);

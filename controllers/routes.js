@@ -28,56 +28,57 @@ exports.setup = function(app) {
         promise.then(function(thisSite){
             //scrape the site
             console.log("scraping " + thisSite.urlToScrape);
-            return request(thisSite.urlToScrape);
-        })
-        .then(function (response, html) {
-            var $ = cheerio.load(html);
-            console.log("loaded html");
-            $(thisSite.baseSelector).each(function(i, element){
-                var image = $(element).find(thisSite.imageSelector).attr("src");
-                var title = $(element).find(thisSite.titleSelector).text();
-                var link = $(element).find(thisSite.linkSelector).attr("href");
-                //  console.log("image: " + image);
-                //  console.log("title: " + title);
-                //  console.log("link: " + link);
-                // *** add this article to db ***
-                articleModel.create({
-                    title: title,
-                    image: thisSite.baseUrl+image,
-                    link: thisSite.baseUrl+link
-                }, function(err, createdDoc){   
-                    if (err){
-                        if (err.code == 11000){
-                            console.log("Scraped an article that already exists.");
-                        } else {
-                            console.log(err);
+            var totalScraped = 0;
+            request(thisSite.urlToScrape, function (err, response, html) {
+                var $ = cheerio.load(html);
+                $(thisSite.baseSelector).each(function(i, element){
+                    var image = $(element).find(thisSite.imageSelector).attr("src");
+                    var title = $(element).find(thisSite.titleSelector).text();
+                    var link = $(element).find(thisSite.linkSelector).attr("href");
+ 
+                    // *** add this article to db ***
+                    var thisPost = new articleModel({
+                        title: title,
+                        image: thisSite.baseUrl+image,
+                        link: thisSite.baseUrl+link
+                    });
+                    thisPost.save(function(err, createdDoc){   
+                        if (err){
+                            if (err.code == 11000){
+                                console.log("Scraped an article that already exists.");
+                            } else {
+                                console.log(err);
+                            }
                         }
-                    }
-                    else { 
-                        //this is not a duplicate
-                        //push this article's ID into the site's associated articles array
-                        console.log("pushing " + createdDoc._id  + " to articles array on site " + thisSite.shortName);
-                        thisSite.articles.push(createdDoc._id);
-                    }
+                        else { 
+                            //this is not a duplicate
+                            //push this article's ID into the site's associated articles array
+                            console.log("pushing " + createdDoc._id  + " to articles array on site " + thisSite.shortName);
+                            thisSite.articles.push(createdDoc._id);
+                            console.log("arrticles now: ", thisSite.articles);
+                        }
+                        totalScraped++;
+                        if (totalScraped === $(thisSite.baseSelector).length){
+                            //console.log("done with scraping");
+                            //display the site's articles    
+                            var promise = siteModel.findOne({_id: req.params.index})
+                            //.populate("articles").populate("articles.comments")
+                            .exec();
+                            promise.then(function(thisSite){
+                                console.log("rendering page: ", thisSite);
+                                res.render("news", thisSite);
+                            })
+                            .catch(function(error){
+                                if (error) console.log(error);
+                            });
+                        }
+                    });
                 });
+                //eachPromise.then(function(){
+                //});
             });
-        }).catch(function(err){
-            console.log('error:', err);
         });
     });
-                // }).then(function(){
-                //     //do this once all the scraping is complete
-                //     //display the site's articles
-                //     var handlebarsInfo = {
-                //         site: {
-                //             shortName: thisSite.shortName,
-                //             introText: thisSite.introText
-                //         },
-                //         posts: thisSite.articles
-                //     };
-                //     console.log("rendering page: ", handlebarsInfo);
-                //     res.render("news", handlebarsInfo);
-                // });
 
 
     app.post("/create/comment", function(req, res){

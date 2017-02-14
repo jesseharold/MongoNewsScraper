@@ -1,9 +1,9 @@
 
-    <h2>{{site.shortName}}</h2>
-    <p>{{site.introText}}</p>
-    {{#if posts}}
+    <h2>{{shortName}}</h2>
+    <p>{{introText}}</p>
+    {{#if articles}}
       <ul class="newsView">
-      {{#each posts}}
+      {{#each articles}}
         <li><h3 class="newsTitle">{{this.title}}</h3>
         Link: <a class="externalLink" href="{{this.link}}" target="_blank">{{this.link}}</a><br>
         {{#if this.image}}

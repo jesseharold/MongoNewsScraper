@@ -26,36 +26,77 @@ exports.setup = function(app) {
             request(thisSite.urlToScrape, function (error, response, html) {
                 if (error){console.log(err);}
                 var $ = cheerio.load(html);
-                //"a.topics-sidebar-title" 
+                //console.log("loaded html");
                 $(thisSite.baseSelector).each(function(i, element){
                     var image = $(element).find(thisSite.imageSelector).attr("src");
                     var title = $(element).find(thisSite.titleSelector).text();
                     var link = $(element).find(thisSite.linkSelector).attr("href");
-                    // console.log("image: " + image);
-                    // console.log("title: " + title);
-                    // console.log("link: " + link);
-                    // *** update this to mongoose ***
+                    //  console.log("image: " + image);
+                    //  console.log("title: " + title);
+                    //  console.log("link: " + link);
+                    // *** add this article to db ***
                     articleModel.create({
                         title: title,
                         image: image,
                         link: thisSite.baseUrl+link
                     }, function(err, createdDoc){   
                         if (err){console.log(err);}
-                        //display the site's articles
-                        articleModel.find({site: req.params.index}, function(err, data){
-                            if (err){console.log(err);}
-                            var handlebarsInfo = {
-                                site: {
-                                    sitename: thisSite.urlToScrape,
-                                    text: thisSite.introText
-                                },
-                                posts: data
-                            };
-                            res.render("news", handlebarsInfo);
-                        });
+                        //push this article's ID into the site's associated articles array
+                        thisSite.articles.push(createdDoc._id);
                     });
                 });
+                //do this once all the scraping is complete
+                //display the site's articles
+                var handlebarsInfo = {
+                    site: {
+                        sitename: thisSite.urlToScrape,
+                        text: thisSite.introText
+                    },
+                    posts: thisSite.articles
+                };
+                console.log("rendering page");
+                res.render("news", handlebarsInfo);
             });
+        });
+    });
+
+    app.post("/create/comment", function(req, res){
+        commentModel.create({
+            text: req.body.commentText,
+            author: req.body.author
+        }, function(err, createdComment){
+            if (err){console.log(err);}
+            //push this comment's ID into the articles associated comments array
+            articleModel.findOne({_id: req.body.articleId}, function(err, thisArticle){
+                thisArticle.comments.push(createdComment._id);
+                res.redirect("/news-site/" + req.body.siteId);
+            });
+        });
+    });
+
+    app.post("/create/user", function(req, res){
+        userModel.create({
+            name: req.body.userName,
+            email: req.body.userEmail
+        }, function(err, createdUser){
+            if (err){console.log(err);}
+            res.redirect("/");
+        });
+    });
+
+    app.post("/create/site", function(req, res){
+        siteModel.create({
+            introText: req.body.introText,
+            baseUrl: req.body.baseUrl,
+            urlToScrape: req.body.urlToScrape,
+            shortName: req.body.shortName,
+            baseSelector: req.body.baseSelector,
+            imageSelector: req.body.imageSelector,
+            titleSelector: req.body.titleSelector,
+            linkSelector: req.body.linkSelector
+        }, function(err, createdUser){
+            if (err){console.log(err);}
+            res.redirect("/");
         });
     });
 };

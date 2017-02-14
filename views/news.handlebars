@@ -10,8 +10,17 @@
           <img class="featureImage" src="{{this.image}}" style="max-width: 400px;">
         {{/if}}
         <div class="commentsBlock">
-          <a class="addCOmment">Comment on this</a>
-          <a class="seeComments">View (NUM) comments</a>
+          <div class="addCOmment">
+            <h4>Comment on this</h4>
+            <form class="commentForm" action="/create/comment">
+              <input type="hidden" value="anon" name="author" />
+              <input type="hidden" value="{{this._id}}" name="articleId" />
+              <input type="hidden" value="{{site._id}}" name="siteId" />
+              <input type="text" size="50" name="commentText" />
+            </form>
+            </form>
+          </div>
+          <div class="seeComments">View (NUM) comments</div>
         </div>
         </li>
       {{/each}}

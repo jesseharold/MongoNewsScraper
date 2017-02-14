@@ -20,7 +20,14 @@
             </form>
             </form>
           </div>
-          <div class="seeComments">View (NUM) comments</div>
+          {{#if this.comments}}
+            <div class="seeComments">View (NUM) comments
+              {{#each this.comments}}
+                {{this.text}}<br>
+                posted by {{this.author}} at {{this.timestamp}}
+              {{/each}}
+            </div>
+          {{/if}}
         </div>
         </li>
       {{/each}}

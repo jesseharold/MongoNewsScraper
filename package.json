@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/jesseharold/MongoNewsScraper#readme",
   "dependencies": {
+    "bluebird": "^3.4.7",
     "body-parser": "^1.16.0",
     "cheerio": "^0.22.0",
     "express": "^4.14.1",

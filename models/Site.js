@@ -11,7 +11,8 @@ var SiteSchema = new Schema({
   },
   urlToScrape: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   shortName: {
     type: String

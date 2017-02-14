@@ -2,8 +2,8 @@ var express = require("express");
 var path = require('path');
 var bodyParser = require('body-parser');
 var handlebars = require("express-handlebars");
-var mongoose = require("mongoose");
-var Promise = require("bluebird");
+var mongoose = require('mongoose');
+mongoose.Promise = require('bluebird');
 
 // *** Database configuration ***
 var databaseUrl = "scrapedData";

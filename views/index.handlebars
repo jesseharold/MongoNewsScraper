@@ -9,24 +9,42 @@
       {{/each}}
       </ul>
     {{/if}}
-    <h2>Create a New User</h2>
+    <h2>Log In</h2>
     <p>You must be "logged in" (no authentication) to post a comment.</p>
+    <form>
+      Username:*<br>
+      <input type="text" name="username" size="30">*<br>
+       Email address:*<br>
+      <input type="text" name="email" size="30">*<br>
+        <input type="submit" value="submit">
+    </form>
+    <h2>Create a New User</h2>
     <form method="POST" action="create/user">
-      <input type="text" name="username" size="30">*
-      <input type="text" name="email" size="30">*
+      Username:* (must be unique) <br>
+      <input type="text" name="username" size="30">*<br>
+       Email address:* (must be unique) <br>
+      <input type="text" name="email" size="30">*<br>
         <input type="submit" value="submit">
     </form>
     <h2>Create a New Site</h2>
     <p>Advanced users only.</p>
     <form method="POST" action="create/site">
-      <input type="text" name="introText" size="30">
-      <input type="text" name="baseUrl" size="30">*
-      <input type="text" name="urlToScrape" size="30">*
-      <input type="text" name="shortName" size="30">
-      <input type="text" name="baseSelector" size="30">*
-      <input type="text" name="imageSelector" size="30">
-      <input type="text" name="titleSelector" size="30">
-      <input type="text" name="linkSelector" size="30">
+      Site Name: <br>
+       <input type="text" name="shortName" size="30"><br>
+      Site Description: <br>
+       <input type="text" name="introText" size="30"><br>
+      Root URL for site: <br>
+       <input type="text" name="baseUrl" size="30">*<br>
+      URL to scrape for articles: <br>
+       <input type="text" name="urlToScrape" size="30">*<br>
+      Parent selector for repeating articles: <br>
+       <input type="text" name="baseSelector" size="30">*<br>
+      Child selector for image: <br>
+       <input type="text" name="imageSelector" size="30"><br>
+      Child selector for title of article: <br>
+       <input type="text" name="titleSelector" size="30"><br>
+      Child selector for link to article: <br>
+      <input type="text" name="linkSelector" size="30"><br>
         <input type="submit" value="submit">
     </form>
   

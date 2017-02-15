@@ -83,50 +83,53 @@ exports.setup = function(app) {
         });
     });
 
-    app.post("/create/comment", function(req, res){
-        var promise = commentModel.create({
-            text: req.body.commentText,
-            author: req.body.author
-        }).exec();
-        promise.then(function(createdComment){
-            //push this comment's ID into the articles associated comments array
-            return articleModel.findOne({_id: req.body.articleId});
-        })
-        .then(function(err, thisArticle){
-            thisArticle.comments.push(createdComment._id);
-            res.redirect("/news-site/" + req.body.siteId);
-        }).catch(function(err){
-            console.log('error:', err);
-        });
-    });
+    // app.post("/create/comment", function(req, res){
+    //     var promise = commentModel.create({
+    //         text: req.body.commentText,
+    //         author: req.body.author
+    //     }).exec();
+    //     promise.then(function(createdComment){
+    //         //push this comment's ID into the articles associated comments array
+    //         return articleModel.findOne({_id: req.body.articleId});
+    //     })
+    //     .then(function(err, thisArticle){
+    //         thisArticle.comments.push(createdComment._id);
+    //         res.redirect("/news-site/" + req.body.siteId);
+    //     }).catch(function(err){
+    //         console.log('error:', err);
+    //     });
+    // });
 
     app.post("/create/user", function(req, res){
-        var promise = userModel.create({
-            name: req.body.userName,
-            email: req.body.userEmail
-        }).exec();
-        promise.then(function(createdUser){
-            res.redirect("/");
-        }).catch(function(err){
-            console.log('error:', err);
+        console.log(req.body.username + ", " + req.body.email);
+        var newUser = new userModel({
+            username: req.body.username,
+            email: req.body.email
+        });
+        newUser.save(function(err, createdUser){
+            if (err) {console.log(err);}
+            else{
+                console.log("saved user");
+            }
+            res.redirect("/?message=username="+req.body.username);
         });
     });
 
-    app.post("/create/site", function(req, res){
-        var promise = siteModel.create({
-            introText: req.body.introText,
-            baseUrl: req.body.baseUrl,
-            urlToScrape: req.body.urlToScrape,
-            shortName: req.body.shortName,
-            baseSelector: req.body.baseSelector,
-            imageSelector: req.body.imageSelector,
-            titleSelector: req.body.titleSelector,
-            linkSelector: req.body.linkSelector
-        }).exec();
-        promise.then(function(createdUser){
-            res.redirect("/");
-        }).catch(function(err){
-            console.log('error:', err);
-        });
-    });
+    // app.post("/create/site", function(req, res){
+    //     var promise = siteModel.create({
+    //         introText: req.body.introText,
+    //         baseUrl: req.body.baseUrl,
+    //         urlToScrape: req.body.urlToScrape,
+    //         shortName: req.body.shortName,
+    //         baseSelector: req.body.baseSelector,
+    //         imageSelector: req.body.imageSelector,
+    //         titleSelector: req.body.titleSelector,
+    //         linkSelector: req.body.linkSelector
+    //     }).exec();
+    //     promise.then(function(createdUser){
+    //         res.redirect("/");
+    //     }).catch(function(err){
+    //         console.log('error:', err);
+    //     });
+    // });
 };

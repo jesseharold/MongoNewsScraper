@@ -24,13 +24,17 @@ exports.setup = function(app) {
 
     // perform the scrape and store data in mongo
     app.get("/news-site/:index/", function(req, res){
-        var promise = siteModel.findOne({_id: req.params.index}).exec();
+        var promise = siteModel.findOne({_id: req.params.index})
+        .populate("articles")
+        .populate("articles.comments")
+        .exec();
         promise.then(function(thisSite){
             //scrape the site
             console.log("scraping " + thisSite.urlToScrape);
             var totalScraped = 0;
             request(thisSite.urlToScrape, function (err, response, html) {
                 var $ = cheerio.load(html);
+                var totalArticles = $(thisSite.baseSelector).length;
                 $(thisSite.baseSelector).each(function(i, element){
                     var image = $(element).find(thisSite.imageSelector).attr("src");
                     var title = $(element).find(thisSite.titleSelector).text();
@@ -45,7 +49,11 @@ exports.setup = function(app) {
                     thisPost.save(function(err, createdDoc){   
                         if (err){
                             if (err.code == 11000){
-                                console.log("Scraped an article that already exists.");
+                                totalScraped++;
+                                console.log("Scraped an article that already exists.", totalScraped);
+                                if (totalScraped >= totalArticles){
+                                    res.render("news", thisSite);
+                                }
                             } else {
                                 console.log(err);
                             }
@@ -53,33 +61,27 @@ exports.setup = function(app) {
                         else { 
                             //this is not a duplicate
                             //push this article's ID into the site's associated articles array
-                            console.log("pushing " + createdDoc._id  + " to articles array on site " + thisSite.shortName);
-                            thisSite.articles.push(createdDoc._id);
-                            console.log("arrticles now: ", thisSite.articles);
-                        }
-                        totalScraped++;
-                        if (totalScraped === $(thisSite.baseSelector).length){
-                            //console.log("done with scraping");
-                            //display the site's articles    
-                            var promise = siteModel.findOne({_id: req.params.index})
-                            //.populate("articles").populate("articles.comments")
+                            console.log("pushing " + createdDoc._id  + " to articles array on site " + thisSite._id);
+                            var promise = siteModel.findByIdAndUpdate(thisSite._id, {$push: {"articles": createdDoc._id}}, {new: true})
+                            .populate("articles")
+                            .populate("articles.comments")
                             .exec();
-                            promise.then(function(thisSite){
-                                console.log("rendering page: ", thisSite);
-                                res.render("news", thisSite);
-                            })
-                            .catch(function(error){
+                            promise.then(function(updatedSite){
+                                thisSite = updatedSite;
+                                totalScraped++;
+                                if (totalScraped >= totalArticles){
+                                    // all asynchronous article saves are done, render the site
+                                    res.render("news", thisSite);
+                                }
+                            }).catch(function(error){
                                 if (error) console.log(error);
                             });
                         }
                     });
                 });
-                //eachPromise.then(function(){
-                //});
             });
         });
     });
-
 
     app.post("/create/comment", function(req, res){
         var promise = commentModel.create({

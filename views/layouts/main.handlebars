@@ -4,12 +4,30 @@
   <meta charset="UTF-8">
   <title>Comment on the News</title>
   <script src="https://code.jquery.com/jquery.js"></script>
+  <script src="/js/jscookie.js"></script>
   <script src="/js/app.js"></script>
   <link rel="stylesheet" href="/css/styles.css" media="screen" title="main styles for app">
 </head>
 <body>
     <div class="container">
       <h1>Comment on the News</h1>
+      
+    <div id="loginBlock">
+      <h2>Log In</h2>
+      <p>You must be "logged in" (no authentication) to post a comment.</p>
+      <form>
+        Username:*<br>
+        <input type="text" name="username" size="30">*<br>
+        Email address:*<br>
+        <input type="text" name="email" size="30">*<br>
+        <input id="login" type="button" value="Login">
+      </form>
+    </div>
+    <div id="logoutBlock">
+      Welcome<span class="userName"></span>. 
+      <button class="logout">Log Out</button>
+    </div>
+    
       {{{ body }}}
       <footer>
           &copy; 2017 Jesse Harold

@@ -38,7 +38,6 @@ img.featureImage {
     margin: 1em;
     display: block;
 }
-
 footer {
     text-align: center;
     margin: 4em 0;
@@ -91,5 +90,8 @@ div.scroller {
 a.breadcrumb {
     display: block;
     font-size: .8em;
-    color: #777;
+    color: #ccc;
+}
+#logoutBlock {
+    display: none;
 }

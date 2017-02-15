@@ -1,5 +1,6 @@
 var cheerio = require("cheerio");
 var request = require("request");
+var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
 
@@ -89,35 +90,22 @@ exports.setup = function(app) {
         });
     });
 
-    // app.post("/create/comment", function(req, res){
-    //     var promise = commentModel.create({
-    //         text: req.body.commentText,
-    //         author: req.body.author
-    //     }).exec();
-    //     promise.then(function(createdComment){
-    //         //push this comment's ID into the articles associated comments array
-    //         return articleModel.findOne({_id: req.body.articleId});
-    //     })
-    //     .then(function(err, thisArticle){
-    //         thisArticle.comments.push(createdComment._id);
-    //         res.redirect("/news-site/" + req.body.siteId);
-    //     }).catch(function(err){
-    //         console.log('error:', err);
-    //     });
-    // });
-
     app.post("/create/user", function(req, res){
-        console.log(req.body.username + ", " + req.body.email);
+        console.log(req.body);
+        console.log("CREATING USR: " + req.body.username + ", " + req.body.email);
         var newUser = new userModel({
             username: req.body.username,
             email: req.body.email
         });
         newUser.save(function(err, createdUser){
-            if (err) {console.log(err);}
+            if (err) {
+                console.log(err);
+                res.redirect("/?err=" + err);
+            }
             else{
                 console.log("saved user");
+                res.redirect("/?username=" + createdUser.username + "&" + createdUser.email);
             }
-            res.redirect("/?message=username="+req.body.username);
         });
     });
 

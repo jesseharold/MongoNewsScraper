@@ -15,12 +15,12 @@
     <div id="loginBlock">
       <h2>Log In</h2>
       <p>You must be "logged in" (no authentication) to post a comment.</p>
-      <form>
+      <form id="login" method="POST" action="/create/user">
         Username:*<br>
         <input type="text" name="username" size="30">*<br>
         Email address:*<br>
         <input type="text" name="email" size="30">*<br>
-        <input id="login" type="button" value="Login">
+        <input id="login" type="submit" value="Login">
       </form>
     </div>
     <div id="logoutBlock">

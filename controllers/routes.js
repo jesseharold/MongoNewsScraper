@@ -39,12 +39,18 @@ exports.setup = function(app) {
                     var image = $(element).find(thisSite.imageSelector).attr("src");
                     var title = $(element).find(thisSite.titleSelector).text();
                     var link = $(element).find(thisSite.linkSelector).attr("href");
- 
+                    // make any relative links into full URLs
+                    if (link && link.indexOf("http") === -1){
+                        link = thisSite.baseUrl+link;
+                    }
+                    if (image && image.indexOf("http") === -1){
+                        image = thisSite.baseUrl+image;
+                    }
                     // *** add this article to db ***
                     var thisPost = new articleModel({
                         title: title,
-                        image: thisSite.baseUrl+image,
-                        link: thisSite.baseUrl+link
+                        image: image,
+                        link: link
                     });
                     thisPost.save(function(err, createdDoc){   
                         if (err){

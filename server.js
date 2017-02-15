@@ -25,7 +25,8 @@ db.once("open", function() {
   siteModel.find({}).exec(function (err, collection) {
         if (collection.length === 0) {
           console.log("seeding sites collection");
-          siteModel.create(seeds.site);
+          siteModel.create(seeds.sites[0]);
+          siteModel.create(seeds.sites[1]);
         }
     });
 });

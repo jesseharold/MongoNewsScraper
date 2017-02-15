@@ -7,10 +7,23 @@ h3.newsTitle {
 ul.newsView>li {
     list-style: none;
     margin-bottom: 2em;
+    clear: both;
+}
+div.commentsBlock {
+    margin: 15px;
 }
 div.commentsBlock>a {
     display: inline-block;
     margin-right: 20px;
     font-size: small;
     text-decoration: underline;
+}
+div.addComment>h4 {
+    margin:0;
+    font-size: .9em;
+}
+img.featureImage {
+    max-width: 400px;
+    float: right;
+    margin: 10px;
 }

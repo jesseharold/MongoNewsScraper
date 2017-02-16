@@ -91,22 +91,35 @@ exports.setup = function(app) {
     });
 
     app.post("/create/user", function(req, res){
-        console.log(req.body);
-        console.log("CREATING USR: " + req.body.username + ", " + req.body.email);
-        var newUser = new userModel({
-            username: req.body.username,
-            email: req.body.email
-        });
-        newUser.save(function(err, createdUser){
-            if (err) {
-                console.log(err);
-                res.redirect("/?err=" + err);
-            }
-            else{
-                console.log("saved user");
-                res.redirect("/?username=" + createdUser.username + "&" + createdUser.email);
-            }
-        });
+        if (!req.body.username || ! req.body.email){
+            // require field us missing
+            res.redirect("/?err=90210&errmsg=field missing");
+        } else {
+            //check if this is an existing user
+            userModel.findOne({username: req.body.username, email: req.body.email}, function(err, user){
+                if (err) {console.log("error finding user ", err);}
+                if (user){
+                    console.log("FOUND THIS USER ", user);
+                    res.redirect("/?username=" + req.body.username + "&email=" + req.body.email);
+                } else {
+                    //not an existing user, save new
+                    var newUser = new userModel({
+                        username: req.body.username,
+                        email: req.body.email
+                    });
+                    newUser.save(function(err, createdUser){
+                        if (err) {
+                            console.log(err);
+                            res.redirect("/?err=" + err.code + "&errmsg=" + err.errmsg);
+                        }
+                        else{
+                            console.log("saved user");
+                            res.redirect("/?username=" + createdUser.username + "&email=" + createdUser.email);
+                        }
+                    });
+                }
+            });
+        }
     });
 
     // app.post("/create/site", function(req, res){

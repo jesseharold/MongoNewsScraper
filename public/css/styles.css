@@ -95,3 +95,6 @@ a.breadcrumb {
 #logoutBlock {
     display: none;
 }
+#loginBlock p.formMessage {
+    color: red;
+}

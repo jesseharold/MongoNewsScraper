@@ -40,13 +40,19 @@ $(document).ready(function(){
     });
 
     // get the the site id onto the comments forms
-    // couldn't get the handlebars to work
+    // couldn't get the handlebars to work for this
     $("form.commentForm input[name=siteId]").val(function(){
         var newsUrl = window.location.href.indexOf("/news-site/");
+        var savedUrl = window.location.href.indexOf("/saved/");
         var siteID = "";
         if (newsUrl > 0){
             // if we're on a news page, get the id
-            var siteID = window.location.href.substring(newsUrl+11, newsUrl+35);
+            siteID = window.location.href.substring(newsUrl+11, newsUrl+35);
+        } else if (savedUrl > 0){
+            // if we're on the saved articles page, set the id to a substring
+            // this will flag to the route that we want to redirect back to the
+            // saved page after creating the comment
+            siteID = "savedPage";
         }
         return siteID;
     });

@@ -60,7 +60,7 @@ exports.setup = function(app) {
                                 // Scraped an article that already exists.
                                 totalScraped++;
                                 if (totalScraped >= totalArticles){
-                                    console.log("rendered from old article: ", thisSite);
+                                    //console.log("rendered from old article: ", thisSite);
                                     res.render("news", {site: thisSite});
                                 }
                             } else {
@@ -71,7 +71,7 @@ exports.setup = function(app) {
                         else { 
                             //this is not a duplicate
                             //push this article's ID into the site's associated articles array
-                            console.log("pushing " + createdDoc._id  + " to articles array on site " + thisSite._id);
+                            //console.log("pushing " + createdDoc._id  + " to articles array on site " + thisSite._id);
                             var promise = siteModel.findByIdAndUpdate(thisSite._id, {$push: {"articles": createdDoc._id}}, {new: true})
                             .populate("articles")
                             .populate("articles.comments")
@@ -81,7 +81,7 @@ exports.setup = function(app) {
                                 totalScraped++;
                                 if (totalScraped >= totalArticles){
                                     // all asynchronous article saves are done, render the site
-                                    console.log("rendered from new article: ", thisSite);
+                                    //console.log("rendered from new article: ", thisSite);
                                     res.render("news", {site: thisSite});
                                 }
                             }).catch(function(error){
@@ -147,7 +147,7 @@ exports.setup = function(app) {
             userModel.findOne({username: req.body.username, email: req.body.email}, function(err, foundUser){
                 if (err) {console.log("error finding user ", err);}
                 if (foundUser){
-                    console.log("FOUND THIS USER ", foundUser);
+                    //console.log("FOUND THIS USER ", foundUser);
                     res.redirect("/?username=" + req.body.username + "&email=" + req.body.email + "&id=" + foundUser._id);
                 } else {
                     //not an existing user, save new
@@ -161,7 +161,7 @@ exports.setup = function(app) {
                             res.redirect("/?err=" + err.code + "&errmsg=" + err.errmsg);
                         }
                         else{
-                            console.log("saved user");
+                            //console.log("saved user");
                             res.redirect("/?username=" + createdUser.username + "&email=" + createdUser.email + "&id=" + createdUser._id);
                         }
                     });
@@ -198,23 +198,20 @@ exports.setup = function(app) {
             text: req.body.commentText,
             author: req.body.author
         }, function(err, createdComment){
-            if (err){ console.log('error creating site:', err); } 
+            if (err){ console.log('error creating comment:', err); } 
             // push comment ID onto article document
             var promise = articleModel.findByIdAndUpdate(req.body.articleId, {$push: {"comments": createdComment._id}})
             .exec();
             promise.then(function(updatedArticle){
-                // re-render news page with updated article
-                var promise2 = siteModel.findOne({_id: req.body.siteId})
-                .populate("articles")
-                .populate("articles.comments")
-                .exec();
-                promise2.then(function(thisSite){
-                    console.log("redirecting to "+ "/news-site/" + req.body.siteId);
+                if (req.body.siteId === "savedPage"){
+                    //redirect to saved page if comment was submitted from saved page
+                    res.redirect("/saved/" + req.body.author);
+                } else {
+                    //redirect to news page if comment was submitted from news page
                     res.redirect("/news-site/" + req.body.siteId);
-                }).catch(function(err){
-                    console.log(err);
-                });
+                }
             });
         });
     });
+    
 };

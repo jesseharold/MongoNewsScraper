@@ -45,7 +45,7 @@ Remember
     Don't just clear out your database and populate it with scraped articles whenever a user accesses your site. If your app deletes stories every time someone visits, your users won't be able to see any comments except the ones that they post.
 
 ## TO DO
-* add author ID (from req.body) to comment's author array
+* fix populate of comment info
 * deploy to heroku
 * users can hide comments they don't like
 * users can delete comments of their own

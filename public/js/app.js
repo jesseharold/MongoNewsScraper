@@ -33,7 +33,7 @@ $(document).ready(function(){
     }
 
     // --- EVENT HANDLERS ---//
-    $("#loginBlock").hover(function(){
+    $(".loginBlock").hover(function(){
         $(this).css("height", "auto");
     }, function(){
         $(this).css("height", 50);
@@ -54,10 +54,11 @@ $(document).ready(function(){
 
 function login(name, email, userid){
     //console.log("logged in as ", name, email);
-    $("#loginBlock").hide();
-    $("#logoutBlock span.userName").text(", " + name);
-    $("#logoutBlock").show().find("button.logout").click(logout);
+    $(".loginBlock").hide();
+    $(".logoutBlock span.userName").text(", " + name);
+    $(".logoutBlock").show().find("button.logout").click(logout);
     $("form.commentForm input[name=author]").val(userid);
+    $("form.commentForm textarea[name=commentText]").val("Comment on this article as " + name);
 }
 function logout(){
     //console.log("logged out");
@@ -65,8 +66,8 @@ function logout(){
     Cookies.remove('newsCommentemail');
     loggedInName = null;
     loggedInEmail = null;
-    $("#logoutBlock").hide().find("span.userName").text("");
-    $("#loginBlock").show();
+    $(".logoutBlock").hide().find("span.userName").text("");
+    $(".loginBlock").show();
 }
 function getUrlVars(){
     var vars = false;

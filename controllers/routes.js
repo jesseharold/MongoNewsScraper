@@ -60,6 +60,7 @@ exports.setup = function(app) {
                                 // Scraped an article that already exists.
                                 totalScraped++;
                                 if (totalScraped >= totalArticles){
+                                    console.log("rendered from old article: ", thisSite);
                                     res.render("news", {site: thisSite});
                                 }
                             } else {
@@ -80,6 +81,7 @@ exports.setup = function(app) {
                                 totalScraped++;
                                 if (totalScraped >= totalArticles){
                                     // all asynchronous article saves are done, render the site
+                                    console.log("rendered from new article: ", thisSite);
                                     res.render("news", {site: thisSite});
                                 }
                             }).catch(function(error){

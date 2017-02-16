@@ -32,6 +32,11 @@ div.addComment>h4 {
     margin:0;
     font-size: .9em;
 }
+div.singleComment {
+    font-size: small;
+    color: #ccc;
+    margin: 8px;
+}
 img.featureImage {
     max-width: 400px;
     float: right;
@@ -92,10 +97,10 @@ a.breadcrumb {
     font-size: .8em;
     color: #ccc;
 }
-#logoutBlock {
+.logoutBlock {
     display: none;
 }
-#loginBlock, #logoutBlock {
+.topNav {
     position: absolute;
     top: 0;
     right: 0;
@@ -106,6 +111,6 @@ a.breadcrumb {
     padding: 0 20px;
     font-size: small;
 }
-#loginBlock p.formMessage {
+.loginBlock p.formMessage {
     color: red;
 }

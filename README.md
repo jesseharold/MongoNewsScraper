@@ -27,6 +27,7 @@ In this assignment, you'll create a web app that lets users leave comments on th
 
 ## TO DO
 * sort articles on news and saved pages my date modified
+* make it so saved articles show as already saved, can't be saved twice
 * fix populate of comment info
 
 Optional To Do's:

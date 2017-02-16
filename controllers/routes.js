@@ -27,7 +27,9 @@ exports.setup = function(app) {
     app.get("/news-site/:index/", function(req, res){
         var promise = siteModel.findOne({_id: req.params.index})
         .populate("articles")
+        .sort({createdAt:-1})
         .populate("articles.comments")
+        .sort({createdAt:-1})
         .exec();
         promise.then(function(thisSite){
             //scrape the site
@@ -60,8 +62,7 @@ exports.setup = function(app) {
                                 // Scraped an article that already exists.
                                 totalScraped++;
                                 if (totalScraped >= totalArticles){
-                                    //console.log("rendered from old article: ", thisSite);
-                                    res.render("news", {site: thisSite});
+                                    renderPage();
                                 }
                             } else {
                                 // some other error
@@ -74,19 +75,27 @@ exports.setup = function(app) {
                             //console.log("pushing " + createdDoc._id  + " to articles array on site " + thisSite._id);
                             var promise = siteModel.findByIdAndUpdate(thisSite._id, {$push: {"articles": createdDoc._id}}, {new: true})
                             .populate("articles")
+                            .sort({createdAt:-1})
                             .populate("articles.comments")
+                            .sort({createdAt:-1})
                             .exec();
                             promise.then(function(updatedSite){
                                 thisSite = updatedSite;
                                 totalScraped++;
                                 if (totalScraped >= totalArticles){
-                                    // all asynchronous article saves are done, render the site
-                                    //console.log("rendered from new article: ", thisSite);
-                                    res.render("news", {site: thisSite});
+                                   renderPage();
                                 }
                             }).catch(function(error){
                                 if (error) console.log(error);
                             });
+                        }
+                        function renderPage(){
+                            // all asynchronous article saves are done, render the site
+                            for (var i = 0; i < thisSite.articles.length; i++){
+                                //add site id to each article object
+                                thisSite.articles[i].siteId = thisSite._id;
+                            }
+                            res.render("news", thisSite);
                         }
                     });
                 });
@@ -124,15 +133,22 @@ exports.setup = function(app) {
         // push the saved article to the users's saved array
         var promise = userModel.findById(req.params.user)
             .populate("saved")
+            .sort({updatedAt:-1})
             .exec();
             promise.then(function(savingUser){
                 // render the news page with a "site" made up of their saved articles
-                res.render("news", {site: {
+                var savedSite = {
                     shortName: savingUser.username + "'s Saved Articles",
                     introText: "You can keep articles here to read or comment later",
                     articles: savingUser.saved
-                    }
-                });
+                };
+                for (var i = 0; i < savedSite.articles.length; i++){
+                    // set the "site" id to a string savedPage
+                    // this will flag to the add comment route that we want to redirect
+                    // back to the saved articles page after saving the comment
+                    savedSite.articles[i].siteId = "savedPage";
+                }
+                res.render("news", savedSite);
             }).catch(function(error){
                 if (error) console.log(error);
             });

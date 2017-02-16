@@ -6,15 +6,13 @@ var CommentSchema = new Schema({
     type: String,
     required: true
   },
-  timestamp: {
-    type: Date,
-    default: Date.now()
-  },
   // Associations
   author: {
     type: Schema.Types.ObjectId,
     ref: "User"
   }
+}, {
+  timestamps: true
 });
 
 var Comment = mongoose.model("Comment", CommentSchema);

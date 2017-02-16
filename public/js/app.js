@@ -14,7 +14,7 @@ $(document).ready(function(){
             var prop = queryString.errmsg.substring(queryString.errmsg.indexOf("index:%20")+9, queryString.errmsg.indexOf("dup%20key")-5);
             var val = queryString.errmsg.substring(queryString.errmsg.indexOf("dup%20key:%20%7B%20:%20%22")+26, queryString.errmsg.indexOf("%22%20%7D"));
             //console.log("A user already exists with " + prop + " " + val);
-            $("p.formMessage").text("A user already exists with " + prop + " " + val);
+            $("p.formMessage").text("That username and email combination did not match existing user with " + prop + " " + val);
         } else if (queryString.err == 90210){
             $("p.formMessage").text("Both username and email are required");   
         }
@@ -39,23 +39,23 @@ $(document).ready(function(){
         $(this).css("height", 50);
     });
 
-    // get the the site id onto the comments forms
-    // couldn't get the handlebars to work for this
-    $("form.commentForm input[name=siteId]").val(function(){
-        var newsUrl = window.location.href.indexOf("/news-site/");
-        var savedUrl = window.location.href.indexOf("/saved/");
-        var siteID = "";
-        if (newsUrl > 0){
-            // if we're on a news page, get the id
-            siteID = window.location.href.substring(newsUrl+11, newsUrl+35);
-        } else if (savedUrl > 0){
-            // if we're on the saved articles page, set the id to a substring
-            // this will flag to the route that we want to redirect back to the
-            // saved page after creating the comment
-            siteID = "savedPage";
-        }
-        return siteID;
-    });
+    // // put the the site id in hidden inputs on the comments forms
+    // // couldn't get the handlebars to work for this
+    // $("form.commentForm input[name=siteId]").val(function(){
+    //     var newsUrl = window.location.href.indexOf("/news-site/");
+    //     var savedUrl = window.location.href.indexOf("/saved/");
+    //     var siteID = "";
+    //     if (newsUrl > 0){
+    //         // if we're on a news page, get the id
+    //         siteID = window.location.href.substring(newsUrl+11, newsUrl+35);
+    //     } else if (savedUrl > 0){
+    //         // if we're on the saved articles page, set the id to a substring
+    //         // this will flag to the route that we want to redirect back to the
+    //         // saved page after creating the comment
+    //         siteID = "savedPage";
+    //     }
+    //     return siteID;
+    // });
 
     // make save buttons into delete from saved buttons on saved articles page
     if (window.location.href.indexOf("/saved/") > 0){

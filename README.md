@@ -47,7 +47,7 @@ Remember
 ## TO DO
 * fix populate of comment info
 * deploy to heroku
-* users can hide comments they don't like
-* users can delete comments of their own
+* fix commenting on saved page redirect
+* users can delete articles from their saved
 
 * add bylines date published to sites, optional

@@ -11,13 +11,23 @@ var aj  = {
 var dn  = {
         shortName: "Democracy Now!",
         introText: "Ad-free, internet-only left-leaning news shows.",
-        baseUrl: "https://www.democracynow.org/",
+        baseUrl: "https://www.democracynow.org",
         urlToScrape: "https://www.democracynow.org/",
         baseSelector: "div.news_item",
         imageSelector: "img",
         titleSelector: "h3",
         linkSelector: "a"
     };
+var mj = {
+    "shortName" : "Mother Jones",
+    "introText" : "Mother Jones is a reader-supported nonprofit news organization.",
+    "baseUrl" : "http://www.motherjones.com",
+    "urlToScrape" : "http://www.motherjones.com/politics",
+    "baseSelector" : ".views-row",
+    "imageSelector" : "img.imagecache",
+    "titleSelector" : "h3.title",
+    "linkSelector" : "h3.title a",
+}
 module.exports = {
-    sites: [aj, dn]
+    sites: [aj, dn, mj]
 };

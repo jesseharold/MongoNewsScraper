@@ -1,11 +1,12 @@
 
     <h2>{{site.shortName}}</h2>
     <p>{{site.introText}}</p>
-    <a href="/" class="breadcrumb">Back Home &gt;&gt;</a>
+    <a href="/" class="breadcrumb">&lt; &lt; Back Home</a>
     {{#if site.articles}}
       <ul class="newsView">
       {{#each site.articles}}
         <li>
+          <a href="/save/{{this._id}}" class="viewSaved"><strong>+</strong> Save This Article</a>
         {{#if this.image}}
           <img class="featureImage" src="{{this.image}}" >
         {{/if}}

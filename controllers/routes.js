@@ -94,6 +94,38 @@ exports.setup = function(app) {
         });
     });
 
+    // save an article for later viewing
+    app.get("/save/:article/:user", function(req, res){
+        // push the saved article to the users's saved array
+        var promise = userModel.findByIdAndUpdate(req.params.user, {$push: {"saved": req.params.article}})
+            .exec();
+            promise.then(function(updatedUser){
+                // render the news page with a "site" made up of their saved articles
+                res.redirect("/saved/" + req.params.user);
+            }).catch(function(error){
+                if (error) console.log(error);
+            });
+    });
+
+    // view saved articles
+    app.get("/saved/:user", function(req, res){
+        // push the saved article to the users's saved array
+        var promise = userModel.findById(req.params.user)
+            .populate("saved")
+            .exec();
+            promise.then(function(savingUser){
+                // render the news page with a "site" made up of their saved articles
+                res.render("news", {site: {
+                    shortName: savingUser.username + "'s Saved Articles",
+                    introText: "You can keep articles here to read or comment later",
+                    articles: savingUser.saved
+                    }
+                });
+            }).catch(function(error){
+                if (error) console.log(error);
+            });
+    });
+
     app.post("/create/user", function(req, res){
         if (!req.body.username || ! req.body.email){
             // require field us missing

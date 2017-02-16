@@ -24,9 +24,10 @@ db.once("open", function() {
   console.log("Mongoose connection successful.");
   siteModel.find({}).exec(function (err, collection) {
         if (collection.length === 0) {
-          console.log("seeding sites collection");
+          console.log("seeding sites...");
           siteModel.create(seeds.sites[0]);
           siteModel.create(seeds.sites[1]);
+          siteModel.create(seeds.sites[2]);
         }
     });
 });

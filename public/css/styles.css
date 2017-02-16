@@ -7,7 +7,7 @@ body {
 h3.newsTitle {
     margin-bottom: 0;
 }
-ul.newsView>li {
+ul.newsView > li {
     list-style: none;
     margin-bottom: 2em;
     clear: both;
@@ -15,20 +15,25 @@ ul.newsView>li {
     color: white;
     padding: 1em;
     display: block;
+    position: relative;
+    border: 1px solid #829960;
 }
-ul.newsView>li a, ul.newsView>li a:visited, ul.newsView>li a:hover, ul.newsView>li a:active {
+ul.newsView > li a, ul.newsView > li a:visited, ul.newsView > li a:hover, ul.newsView > li a:active {
     color: #fff;
 }
 div.commentsBlock {
     margin: 1.5em;
 }
-div.commentsBlock>a {
+div.commentsBlock .seeComments {
+    color: #c0f188;
+}
+div.commentsBlock > a {
     display: inline-block;
     margin-right: 2em;
     font-size: small;
     text-decoration: underline;
 }
-div.addComment>h4 {
+div.addComment > h4 {
     margin:0;
     font-size: .9em;
 }
@@ -110,6 +115,28 @@ a.breadcrumb {
     background: #222;
     padding: 0 20px;
     font-size: small;
+}
+a.viewSaved {
+    display: block;
+    float: left;
+    margin: 0 17px 0 0;
+    background: #9fd848;
+    padding: 6px 8px;
+    color: black;
+    cursor: pointer;
+    text-decoration: none;
+}
+ul.newsView a.viewSaved {
+    position: absolute;
+    top: 0;
+    left: -5px;
+    top: -5px;
+    font-size: small;
+    color: black;
+    padding: 4px 9px;
+}
+ul.newsView a.viewSaved:hover, ul.newsView a.viewSaved:active, ul.newsView a.viewSaved:visited {
+    color: black;
 }
 .loginBlock p.formMessage {
     color: red;

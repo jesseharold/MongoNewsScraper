@@ -11,7 +11,12 @@ var UserSchema = new Schema({
     type: String,
     required: true,
     unique: true
-  }
+  },
+  // Associations
+  saved: [{
+    type: Schema.Types.ObjectId,
+    ref: "Article"
+  }]
 });
 
 var User = mongoose.model("User", UserSchema);

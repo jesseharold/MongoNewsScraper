@@ -1,17 +1,20 @@
 $(document).ready(function(){
+
+    //--- USER MANAGEMENT ---//
+
     //check for existing cookie
     var loggedInName = Cookies.get('newsCommentusername');
     var loggedInEmail = Cookies.get('newsCommentemail');
     var queryString = getUrlVars();
     // check for errors coming back from the server
     if (queryString.err){
-        console.log("error code: ", queryString.err);
-        console.log("error msg: ", queryString.errmsg);
+        //console.log("error code: ", queryString.err);
+        //console.log("error msg: ", queryString.errmsg);
         if (queryString.err == 11000){
             //duplicate user error, notify user
             var prop = queryString.errmsg.substring(queryString.errmsg.indexOf("index:%20")+9, queryString.errmsg.indexOf("dup%20key")-5);
             var val = queryString.errmsg.substring(queryString.errmsg.indexOf("dup%20key:%20%7B%20:%20%22")+26, queryString.errmsg.indexOf("%22%20%7D"));
-            console.log("A user already exists with " + prop + " " + val);
+            //console.log("A user already exists with " + prop + " " + val);
             $("p.formMessage").text("A user already exists with " + prop + " " + val);
         } else if (queryString.err == 90210){
             $("p.formMessage").text("Both username and email are required");   
@@ -27,15 +30,22 @@ $(document).ready(function(){
     if (loggedInName){
         login(loggedInName, loggedInEmail);
     }
+
+    // --- EVENT HANDLERS ---//
+    $("#loginBlock").hover(function(){
+        $(this).css("height", "auto");
+    }, function(){
+        $(this).css("height", 50);
+    });
 });
 function login(name, email){
-    console.log("logged in as ", name, email);
+    //console.log("logged in as ", name, email);
     $("#loginBlock").hide();
     $("#logoutBlock span.userName").text(", " + name);
     $("#logoutBlock").show().find("button.logout").click(logout);
 }
 function logout(){
-    console.log("logged out");
+    //console.log("logged out");
     Cookies.remove('newsCommentusername');
     Cookies.remove('newsCommentemail');
     loggedInName = null;

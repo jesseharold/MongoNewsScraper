@@ -107,6 +107,18 @@ exports.setup = function(app) {
             });
     });
 
+    // remove an article from saved page
+    app.get("/unsave/:article/:user", function(req, res){
+        // remove the saved article from the users's saved array
+        var promise = userModel.findByIdAndUpdate(req.params.user, {$pull: {"saved": req.params.article}})
+            .exec();
+            promise.then(function(updatedUser){
+                // render the news page with a "site" made up of their saved articles
+                res.redirect("/saved/" + req.params.user);
+            }).catch(function(error){
+                if (error) console.log(error);
+            });
+    });
     // view saved articles
     app.get("/saved/:user", function(req, res){
         // push the saved article to the users's saved array

@@ -39,7 +39,7 @@ $(document).ready(function(){
         $(this).css("height", 50);
     });
 
-    // a hack to get the the site id onto the comments forms
+    // get the the site id onto the comments forms
     // couldn't get the handlebars to work
     $("form.commentForm input[name=siteId]").val(function(){
         var newsUrl = window.location.href.indexOf("/news-site/");
@@ -50,6 +50,17 @@ $(document).ready(function(){
         }
         return siteID;
     });
+
+    // make save buttons into delete from saved buttons on saved articles page
+    if (window.location.href.indexOf("/saved/") > 0){
+        $("ul.newsView a.viewSaved")
+            .html("<strong>-</strong> Remove from Saved")
+            .css("background-color", "#d86c48")
+            .attr("href", function(){
+                var linkParts = $(this).attr("href").split("save/");
+                return "/unsave/" + linkParts[1];
+            });
+    }
 });//document ready
 
 function login(name, email, userid){

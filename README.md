@@ -31,4 +31,3 @@ In this assignment, you'll create a web app that lets users leave comments on th
 
 Optional To Do's:
 * add date published to articles (optional)
-* add main page image, icons make it look better (optional)

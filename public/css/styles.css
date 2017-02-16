@@ -17,7 +17,7 @@ ul.newsView>li {
     display: block;
 }
 ul.newsView>li a, ul.newsView>li a:visited, ul.newsView>li a:hover, ul.newsView>li a:active {
-    color: #bbb;
+    color: #fff;
 }
 div.commentsBlock {
     margin: 1.5em;

@@ -60,7 +60,7 @@ exports.setup = function(app) {
                                 // Scraped an article that already exists.
                                 totalScraped++;
                                 if (totalScraped >= totalArticles){
-                                    res.render("news", thisSite);
+                                    res.render("news", {site: thisSite});
                                 }
                             } else {
                                 // some other error
@@ -80,7 +80,7 @@ exports.setup = function(app) {
                                 totalScraped++;
                                 if (totalScraped >= totalArticles){
                                     // all asynchronous article saves are done, render the site
-                                    res.render("news", thisSite);
+                                    res.render("news", {site: thisSite});
                                 }
                             }).catch(function(error){
                                 if (error) console.log(error);
@@ -98,11 +98,11 @@ exports.setup = function(app) {
             res.redirect("/?err=90210&errmsg=field missing");
         } else {
             //check if this is an existing user
-            userModel.findOne({username: req.body.username, email: req.body.email}, function(err, user){
+            userModel.findOne({username: req.body.username, email: req.body.email}, function(err, foundUser){
                 if (err) {console.log("error finding user ", err);}
-                if (user){
-                    console.log("FOUND THIS USER ", user);
-                    res.redirect("/?username=" + req.body.username + "&email=" + req.body.email);
+                if (foundUser){
+                    console.log("FOUND THIS USER ", foundUser);
+                    res.redirect("/?username=" + req.body.username + "&email=" + req.body.email + "&id=" + foundUser._id);
                 } else {
                     //not an existing user, save new
                     var newUser = new userModel({
@@ -149,7 +149,8 @@ exports.setup = function(app) {
     
     app.post("/create/comment", function(req, res){
         commentModel.create({
-            text: req.body.commentText
+            text: req.body.commentText,
+            author: req.body.author
         }, function(err, createdComment){
             if (err){ console.log('error creating site:', err); } 
             // push comment ID onto article document
@@ -162,7 +163,8 @@ exports.setup = function(app) {
                 .populate("articles.comments")
                 .exec();
                 promise2.then(function(thisSite){
-                    res.render("news", thisSite);
+                    console.log("redirecting to "+ "/news-site/" + req.body.siteId);
+                    res.redirect("/news-site/" + req.body.siteId);
                 }).catch(function(err){
                     console.log(err);
                 });

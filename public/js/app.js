@@ -9,8 +9,6 @@ $(document).ready(function(){
     var queryString = getUrlVars();
     // check for errors coming back from the server
     if (queryString.err){
-        //console.log("error code: ", queryString.err);
-        //console.log("error msg: ", queryString.errmsg);
         if (queryString.err == 11000){
             //duplicate user error, notify user
             var prop = queryString.errmsg.substring(queryString.errmsg.indexOf("index:%20")+9, queryString.errmsg.indexOf("dup%20key")-5);
@@ -40,7 +38,20 @@ $(document).ready(function(){
     }, function(){
         $(this).css("height", 50);
     });
-});
+
+    // a hack to get the the site id onto the comments forms
+    // couldn't get the handlebars to work
+    $("form.commentForm input[name=siteId]").val(function(){
+        var newsUrl = window.location.href.indexOf("/news-site/");
+        var siteID = "";
+        if (newsUrl > 0){
+            // if we're on a news page, get the id
+            var siteID = window.location.href.substring(newsUrl+11, newsUrl+35);
+        }
+        return siteID;
+    });
+});//document ready
+
 function login(name, email, userid){
     //console.log("logged in as ", name, email);
     $("#loginBlock").hide();

@@ -64,6 +64,7 @@ img.featureImage {
     float: right;
     margin: 1em;
     display: block;
+    width: 90%;
 }
 footer {
     text-align: center;
@@ -115,4 +116,13 @@ ul.newsView a.viewSaved:hover, ul.newsView a.viewSaved:active, ul.newsView a.vie
 }
 .loginBlock p.formMessage {
     color: red;
+}
+textarea.logoutBlock {
+    max-width: 100%;
+}
+@media screen and (max-width: 680px) {
+    img.featureImage{
+        float: none;
+        margin: auto;
+    }
 }

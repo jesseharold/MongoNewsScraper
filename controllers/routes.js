@@ -53,15 +53,17 @@ exports.setup = function(app) {
                         image: image,
                         link: link
                     });
+                    // attempt to save this article
                     thisPost.save(function(err, createdDoc){   
                         if (err){
                             if (err.code == 11000){
+                                // Scraped an article that already exists.
                                 totalScraped++;
-                                console.log("Scraped an article that already exists.", totalScraped);
                                 if (totalScraped >= totalArticles){
                                     res.render("news", thisSite);
                                 }
                             } else {
+                                // some other error
                                 console.log(err);
                             }
                         }
@@ -114,7 +116,7 @@ exports.setup = function(app) {
                         }
                         else{
                             console.log("saved user");
-                            res.redirect("/?username=" + createdUser.username + "&email=" + createdUser.email);
+                            res.redirect("/?username=" + createdUser.username + "&email=" + createdUser.email + "&id=" + createdUser._id);
                         }
                     });
                 }
@@ -122,21 +124,49 @@ exports.setup = function(app) {
         }
     });
 
-    // app.post("/create/site", function(req, res){
-    //     var promise = siteModel.create({
-    //         introText: req.body.introText,
-    //         baseUrl: req.body.baseUrl,
-    //         urlToScrape: req.body.urlToScrape,
-    //         shortName: req.body.shortName,
-    //         baseSelector: req.body.baseSelector,
-    //         imageSelector: req.body.imageSelector,
-    //         titleSelector: req.body.titleSelector,
-    //         linkSelector: req.body.linkSelector
-    //     }).exec();
-    //     promise.then(function(createdUser){
-    //         res.redirect("/");
-    //     }).catch(function(err){
-    //         console.log('error:', err);
-    //     });
-    // });
+    app.post("/create/site", function(req, res){
+        siteModel.create({
+            introText: req.body.introText,
+            baseUrl: req.body.baseUrl,
+            urlToScrape: req.body.urlToScrape,
+            shortName: req.body.shortName,
+            baseSelector: req.body.baseSelector,
+            imageSelector: req.body.imageSelector,
+            titleSelector: req.body.titleSelector,
+            linkSelector: req.body.linkSelector
+        }, function(err, createdSite){
+            if (err){ 
+                if (err.code == 11000){
+                    res.redirect("/?message=sitealreadyexists");
+                } else {
+                    console.log('error creating site:', err);
+                }
+            } else {
+                res.redirect("/?message=site-" + createdSite.shortName + "-added");
+            }
+        });
+    });
+    
+    app.post("/create/comment", function(req, res){
+        commentModel.create({
+            text: req.body.commentText
+        }, function(err, createdComment){
+            if (err){ console.log('error creating site:', err); } 
+            // push comment ID onto article document
+            var promise = articleModel.findByIdAndUpdate(req.body.articleId, {$push: {"comments": createdComment._id}})
+            .exec();
+            promise.then(function(updatedArticle){
+                // re-render news page with updated article
+                var promise2 = siteModel.findOne({_id: req.body.siteId})
+                .populate("articles")
+                .populate("articles.comments")
+                .exec();
+                promise2.then(function(thisSite){
+                    res.render("news", thisSite);
+                }).catch(function(err){
+                    console.log(err);
+                });
+            });
+        });
+    });
 };

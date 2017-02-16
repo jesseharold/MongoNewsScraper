@@ -5,6 +5,7 @@ $(document).ready(function(){
     //check for existing cookie
     var loggedInName = Cookies.get('newsCommentusername');
     var loggedInEmail = Cookies.get('newsCommentemail');
+    var loggedInId = Cookies.get('newsCommentId');
     var queryString = getUrlVars();
     // check for errors coming back from the server
     if (queryString.err){
@@ -24,11 +25,13 @@ $(document).ready(function(){
     if (queryString.username && queryString.email){
         loggedInName = queryString.username;
         loggedInEmail = queryString.email;
+        loggedInId = queryString.id;
         Cookies.set('newsCommentusername', loggedInName, { expires: 7 });
         Cookies.set('newsCommentemail', loggedInEmail, { expires: 7 });
+        Cookies.set('newsCommentId', loggedInId, { expires: 7 });
     }
     if (loggedInName){
-        login(loggedInName, loggedInEmail);
+        login(loggedInName, loggedInEmail, loggedInId);
     }
 
     // --- EVENT HANDLERS ---//
@@ -38,11 +41,12 @@ $(document).ready(function(){
         $(this).css("height", 50);
     });
 });
-function login(name, email){
+function login(name, email, userid){
     //console.log("logged in as ", name, email);
     $("#loginBlock").hide();
     $("#logoutBlock span.userName").text(", " + name);
     $("#logoutBlock").show().find("button.logout").click(logout);
+    $("form.commentForm input[name=author]").val(userid);
 }
 function logout(){
     //console.log("logged out");

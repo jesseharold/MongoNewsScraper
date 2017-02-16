@@ -102,6 +102,9 @@ a.viewSaved {
     cursor: pointer;
     text-decoration: none;
 }
+a.removeSaved {
+    background-color: #d86c48;
+}
 ul.newsView a.viewSaved {
     position: absolute;
     top: 0;

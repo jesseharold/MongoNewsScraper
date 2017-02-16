@@ -6,7 +6,12 @@
       <ul class="newsView">
       {{#each articles}}
         <li>
+          {{#if isSavedPage}}
+          <a href="/unsave/{{this._id}}" class="viewSaved removeSaved"><strong>-</strong> Remove from Saved</a>
+          {{/if}}
+          {{#unless isSavedPage}}
           <a href="/save/{{this._id}}" class="viewSaved"><strong>+</strong> Save This Article</a>
+          {{/unless}}
         {{#if this.image}}
           <img class="featureImage" src="{{this.image}}" >
         {{/if}}

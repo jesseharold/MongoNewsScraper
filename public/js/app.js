@@ -39,34 +39,16 @@ $(document).ready(function(){
         $(this).css("height", 50);
     });
 
-    // // put the the site id in hidden inputs on the comments forms
-    // // couldn't get the handlebars to work for this
-    // $("form.commentForm input[name=siteId]").val(function(){
-    //     var newsUrl = window.location.href.indexOf("/news-site/");
-    //     var savedUrl = window.location.href.indexOf("/saved/");
-    //     var siteID = "";
-    //     if (newsUrl > 0){
-    //         // if we're on a news page, get the id
-    //         siteID = window.location.href.substring(newsUrl+11, newsUrl+35);
-    //     } else if (savedUrl > 0){
-    //         // if we're on the saved articles page, set the id to a substring
-    //         // this will flag to the route that we want to redirect back to the
-    //         // saved page after creating the comment
-    //         siteID = "savedPage";
-    //     }
-    //     return siteID;
-    // });
-
     // make save buttons into delete from saved buttons on saved articles page
-    if (window.location.href.indexOf("/saved/") > 0){
-        $("ul.newsView a.viewSaved")
-            .html("<strong>-</strong> Remove from Saved")
-            .css("background-color", "#d86c48")
-            .attr("href", function(){
-                var linkParts = $(this).attr("href").split("save/");
-                return "/unsave/" + linkParts[1];
-            });
-    }
+    // if (window.location.href.indexOf("/saved/") > 0){
+    //     $("ul.newsView a.viewSaved")
+    //         .html("<strong>-</strong> Remove from Saved")
+    //         .css("background-color", "#d86c48")
+    //         .attr("href", function(){
+    //             var linkParts = $(this).attr("href").split("save/");
+    //             return "/unsave/" + linkParts[1];
+    //         });
+    // }
 });//document ready
 
 function login(name, email, userid){

@@ -95,6 +95,7 @@ exports.setup = function(app) {
                                 //add site id to each article object
                                 thisSite.articles[i].siteId = thisSite._id;
                             }
+                            thisSite.isSavedPage = false;
                             res.render("news", thisSite);
                         }
                     });
@@ -140,6 +141,7 @@ exports.setup = function(app) {
                 var savedSite = {
                     shortName: savingUser.username + "'s Saved Articles",
                     introText: "You can keep articles here to read or comment later",
+                    isSavedPage: true,
                     articles: savingUser.saved
                 };
                 for (var i = 0; i < savedSite.articles.length; i++){

@@ -1,11 +1,27 @@
 body {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Titillium Web', sans-serif;
     background-color: #333;
     color: #c0f188;
-    padding: .3em 2em;
+    padding: 3em 2em;
+}
+h1 {
+    font-size: 3.5em;
+    font-family: 'Rokkitt', serif;
+    margin: 0;
+}
+h2 {
+    font-size: 2.5em;
+    font-family: 'Rokkitt', serif;
+    margin: 0;
 }
 h3.newsTitle {
     margin-bottom: 0;
+}
+button {    
+    background-color: white;
+    border: 0;
+    padding: 3px 4px;
+    margin: 0 9px 0 0;
 }
 ul.newsView > li {
     list-style: none;
@@ -26,6 +42,7 @@ div.commentsBlock {
 }
 div.commentsBlock .seeComments {
     color: #c0f188;
+    margin-top: 7px;
 }
 div.commentsBlock > a {
     display: inline-block;
@@ -54,49 +71,6 @@ footer {
     color: #888;
     font-size: small;
 }
-#modal {
-    display: none;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-}
-#modal .modal-background {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-color: black;
-    opacity: .6;
-}
-#modal .modal-container {
-    position: relative;
-    background-color: white;
-    width: 50%;
-    min-height: 200px;
-    margin: 5% auto;
-    padding: 8px 16px;
-    border-radius: 7px;
-}
-#modal .modal-close {
-    cursor: pointer;
-    font-weight: bold;
-    position: absolute;
-    right: 4px;
-    top: 4px;
-    border: 1px #333 solid;
-    width: 23px;
-    height: 23px;
-    text-align: center;
-    vertical-align: middle;
-    background-color: #4484CE;
-}
-div.scroller {    
-    max-height: 280px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    padding: 0 7px 0 0;
-}
 a.breadcrumb {
     display: block;
     font-size: .8em;
@@ -115,6 +89,7 @@ a.breadcrumb {
     background: #222;
     padding: 0 20px;
     font-size: small;
+    z-index: 100;
 }
 a.viewSaved {
     display: block;

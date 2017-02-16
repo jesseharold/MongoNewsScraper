@@ -6,12 +6,15 @@
   <script src="https://code.jquery.com/jquery.js"></script>
   <script src="/js/jscookie.js"></script>
   <script src="/js/app.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Rokkitt|Titillium+Web" rel="stylesheet"> 
   <link rel="stylesheet" href="/css/styles.css" media="screen" title="main styles for app">
 </head>
 <body>
     <div class="container">
-      <h1>Comment on the News</h1>
-      
+
+    <h1>Comment on the News</h1>
+    
+    <!--navigation when logged out-->
     <div class="loginBlock topNav">
       <h2>Log In</h2>
       <p>Choose a username to save articles and post comments. (no password required)</p>
@@ -24,24 +27,19 @@
         <p class="formMessage"></p>
       </form>
     </div>
+    <!--navigation when logged in-->
     <div class="logoutBlock topNav">
       <a href="/saved" class="viewSaved">Your Saved Articles</a>
       Welcome<span class="userName"></span>. 
       <button class="logout">Log Out</button>
     </div>
     
-      {{{ body }}}
-      <footer>
-          &copy; 2017 Jesse Harold
-      </footer>
-      <div id="modal">
-        <div class="modal-background"></div>
-        <div class="modal-container">
-          <div class="modal-close">X</div>
-          <h2 class="title"></h2>
-          <p class="modal-text"></p>
-        </div>
-      </div>
+    {{{ body }}}
+    
+    <footer>
+        &copy; 2017 Jesse Harold
+    </footer>
+
     </div>
   </body>
 </html>

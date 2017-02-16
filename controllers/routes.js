@@ -90,11 +90,6 @@ exports.setup = function(app) {
                             });
                         }
                         function renderPage(){
-                            // all asynchronous article saves are done, render the site
-                            for (var i = 0; i < thisSite.articles.length; i++){
-                                //add site id to each article object
-                                thisSite.articles[i].siteId = thisSite._id;
-                            }
                             thisSite.isSavedPage = false;
                             res.render("news", thisSite);
                         }
@@ -139,17 +134,12 @@ exports.setup = function(app) {
             promise.then(function(savingUser){
                 // render the news page with a "site" made up of their saved articles
                 var savedSite = {
+                    _id: "savedPage",
                     shortName: savingUser.username + "'s Saved Articles",
                     introText: "You can keep articles here to read or comment later",
                     isSavedPage: true,
                     articles: savingUser.saved
                 };
-                for (var i = 0; i < savedSite.articles.length; i++){
-                    // set the "site" id to a string savedPage
-                    // this will flag to the add comment route that we want to redirect
-                    // back to the saved articles page after saving the comment
-                    savedSite.articles[i].siteId = "savedPage";
-                }
                 res.render("news", savedSite);
             }).catch(function(error){
                 if (error) console.log(error);

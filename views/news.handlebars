@@ -6,10 +6,10 @@
       <ul class="newsView">
       {{#each articles}}
         <li>
-          {{#if isSavedPage}}
+          {{#if ../isSavedPage}}
           <a href="/unsave/{{this._id}}" class="viewSaved removeSaved"><strong>-</strong> Remove from Saved</a>
           {{/if}}
-          {{#unless isSavedPage}}
+          {{#unless ../isSavedPage}}
           <a href="/save/{{this._id}}" class="viewSaved"><strong>+</strong> Save This Article</a>
           {{/unless}}
         {{#if this.image}}
@@ -21,7 +21,7 @@
             <form class="commentForm" method="POST" action="/create/comment">
               <input type="hidden" value="anon" name="author" />
               <input type="hidden" value="{{this._id}}" name="articleId" />
-              <input type="hidden" value="{{siteId}}" name="siteId" />
+              <input type="hidden" value="{{../_id}}" name="siteId" />
               <p class="loginBlock">You must log in to leave a comment.</p>
               <textarea cols="30" class="logoutBlock" name="commentText">Comment on this article</textarea>
               <input type="submit"class="logoutBlock"  value="Submit">

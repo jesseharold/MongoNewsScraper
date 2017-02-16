@@ -48,6 +48,5 @@ Remember
 * fix populate of comment info
 * deploy to heroku
 * fix commenting on saved page redirect
-* users can delete articles from their saved
 
 * add bylines date published to sites, optional

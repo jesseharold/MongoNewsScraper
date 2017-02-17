@@ -26,9 +26,10 @@ In this assignment, you'll create a web app that lets users leave comments on th
     Usernames are checked for duplicates.
 
 ## TO DO
-* fix populate of comment info
+* make time look nicer, use momentjs
+* make comments show username, linked to email address rather than user id
 
 Optional To Do's:
 * make it so saved articles show as already saved, can't be saved twice
 * sort saved articles on date saved (would need to update article on save somehow...)
-* add date published to articles (optional)
+* add time/date published to articles model, selectors, and display

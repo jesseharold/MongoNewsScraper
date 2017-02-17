@@ -28,8 +28,6 @@ exports.setup = function(app) {
         var promise = siteModel.findOne({_id: req.params.index})
         .populate("articles")
         .sort({createdAt:-1})
-        .populate("articles.comments")
-        .sort({createdAt:-1})
         .exec();
         promise.then(function(thisSite){
             //scrape the site
@@ -76,8 +74,6 @@ exports.setup = function(app) {
                             var promise = siteModel.findByIdAndUpdate(thisSite._id, {$push: {"articles": createdDoc._id}}, {new: true})
                             .populate("articles")
                             .sort({createdAt:-1})
-                            .populate("articles.comments")
-                            .sort({createdAt:-1})
                             .exec();
                             promise.then(function(updatedSite){
                                 thisSite = updatedSite;
@@ -91,6 +87,7 @@ exports.setup = function(app) {
                         }
                         function renderPage(){
                             thisSite.isSavedPage = false;
+                            console.log(thisSite.comments)
                             res.render("news", thisSite);
                         }
                     });

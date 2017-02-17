@@ -16,6 +16,8 @@
           <img class="featureImage" src="{{this.image}}" >
         {{/if}}
         <h3 class="newsTitle"><a class="externalLink" href="{{this.link}}" target="_blank">{{this.title}}</a></h3>
+
+        <!-- form for submitting comments -->
         <div class="commentsBlock">
           <div class="addComment">
             <form class="commentForm" method="POST" action="/create/comment">
@@ -27,17 +29,19 @@
               <input type="submit"class="logoutBlock"  value="Submit">
             </form>
           </div>
+
           {{#if this.comments}}
+          <!-- List out existing comments -->
             <div class="seeComments">Previous comments
               {{#each this.comments}}
               <div class="singleComment">
-                Comment ID: {{this}}<br>
                 text: {{this.text}}<br>
                 posted by {{this.author}} at {{this.createdAt}}
               </div>
               {{/each}}
             </div>
           {{/if}}
+
         </div>
         <br clear="both">
         </li>

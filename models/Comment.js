@@ -6,14 +6,29 @@ var CommentSchema = new Schema({
     type: String,
     required: true
   },
-  // Associations
-  author: {
-    type: Schema.Types.ObjectId,
-    ref: "User"
+  authorName: {
+    type: String,
+    required: true
+  },
+  authorId: {
+    type: String,
+    required: true
   }
 }, {
   timestamps: true
 });
+
+// make date look nicer
+var formatDate = function(next) {
+  console.log("formatting date: ");
+  next();
+};
+
+//attach pre processor to all find events used
+CommentSchema.
+  pre('findById', formatDate).
+  pre('findOne', formatDate).
+  pre('find', formatDate);
 
 var Comment = mongoose.model("Comment", CommentSchema);
 

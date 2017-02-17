@@ -47,7 +47,8 @@ function login(name, email, userid){
     $(".logoutBlock span.userName").text(", " + name);
     $(".logoutBlock").show().find("button.logout").click(logout);
     // add user id to forms, since it's only persisted on the front end
-    $("form.commentForm input[name=author]").val(userid);
+    $("form.commentForm input[name=authorId]").val(userid);
+    $("form.commentForm input[name=authorName]").val(name);
     $("form.commentForm textarea[name=commentText]").val("Comment on this article as " + name);
     $("a.viewSaved").attr("href", function(){
         return $(this).attr("href") + "/" + userid;

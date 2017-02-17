@@ -87,7 +87,6 @@ exports.setup = function(app) {
                         }
                         function renderPage(){
                             thisSite.isSavedPage = false;
-                            console.log(thisSite.comments)
                             res.render("news", thisSite);
                         }
                     });
@@ -201,7 +200,8 @@ exports.setup = function(app) {
     app.post("/create/comment", function(req, res){
         commentModel.create({
             text: req.body.commentText,
-            author: req.body.author
+            authorName: req.body.authorName,
+            authorId: req.body.authorId
         }, function(err, createdComment){
             if (err){ console.log('error creating comment:', err); } 
             // push comment ID onto article document
@@ -210,7 +210,7 @@ exports.setup = function(app) {
             promise.then(function(updatedArticle){
                 if (req.body.siteId === "savedPage"){
                     //redirect to saved page if comment was submitted from saved page
-                    res.redirect("/saved/" + req.body.author);
+                    res.redirect("/saved/" + req.body.authorId);
                 } else {
                     //redirect to news page if comment was submitted from news page
                     res.redirect("/news-site/" + req.body.siteId);

@@ -25,7 +25,8 @@ var ArticleSchema = new Schema({
 
 //always include comments when articles are called up
 var autoPopulateComments = function(next) {
-  this.populate('comments');
+  this.populate('comments')
+  .sort({createdAt: -1});
   next();
 };
 

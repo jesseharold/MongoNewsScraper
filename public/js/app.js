@@ -28,6 +28,7 @@ $(document).ready(function(){
         Cookies.set('newsCommentemail', loggedInEmail, { expires: 7 });
         Cookies.set('newsCommentId', loggedInId, { expires: 7 });
     }
+    //console.log(loggedInName);
     if (loggedInName){
         login(loggedInName, loggedInEmail, loggedInId);
     }

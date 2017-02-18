@@ -27,7 +27,7 @@ exports.setup = function(app) {
     app.get("/news-site/:index/", function(req, res){
         var promise = siteModel.findOne({_id: req.params.index})
         .populate("articles")
-        .sort({createdAt:-1})
+        .sort({createdAt:1})
         .exec();
         promise.then(function(thisSite){
             //scrape the site
@@ -73,7 +73,7 @@ exports.setup = function(app) {
                             //console.log("pushing " + createdDoc._id  + " to articles array on site " + thisSite._id);
                             var promise = siteModel.findByIdAndUpdate(thisSite._id, {$push: {"articles": createdDoc._id}}, {new: true})
                             .populate("articles")
-                            .sort({createdAt:-1})
+                            .sort({createdAt:1})
                             .exec();
                             promise.then(function(updatedSite){
                                 thisSite = updatedSite;
@@ -125,7 +125,7 @@ exports.setup = function(app) {
         // push the saved article to the users's saved array
         var promise = userModel.findById(req.params.user)
             .populate("saved")
-            .sort({updatedAt:-1})
+            .sort({updatedAt:1})
             .exec();
             promise.then(function(savingUser){
                 // render the news page with a "site" made up of their saved articles

@@ -27,7 +27,6 @@ In this assignment, you'll create a web app that lets users leave comments on th
 
 ## TO DO
 * make time look nicer, use momentjs in pre functions on model
-* make comments in a scroller box, so they don't push the page down too much
 * make it so saved articles show as already saved, can't be saved twice
 
 Optional To Do's:

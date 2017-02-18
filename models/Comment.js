@@ -18,18 +18,6 @@ var CommentSchema = new Schema({
   timestamps: true
 });
 
-// make date look nicer
-var formatDate = function(next) {
-  console.log("formatting date: ");
-  next();
-};
-
-//attach pre processor to all find events used
-CommentSchema.
-  pre('findById', formatDate).
-  pre('findOne', formatDate).
-  pre('find', formatDate);
-
 var Comment = mongoose.model("Comment", CommentSchema);
 
 module.exports = Comment;
